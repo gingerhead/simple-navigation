@@ -145,9 +145,14 @@ module SimpleNavigation
       url_with_params && url_with_params.split('?').first
     end
 
+    def remove_trailing_slash(url_with_slash)
+      url_with_slash && url_with_slash.chomp('/')
+    end
+
     def url_for_autohighlight
       relevant_url = remove_anchors(self.url) if config.ignore_anchors_on_auto_highlight
       relevant_url = remove_query_params(relevant_url) if config.ignore_query_params_on_auto_highlight
+      relevant_url = remove_trailing_slash(relevant_url) if Rails.configuration.action_controller.default_url_options[:trailing_slash]
       relevant_url
     end
 
